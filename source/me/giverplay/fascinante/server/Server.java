@@ -6,9 +6,13 @@ import me.giverplay.fascinante.server.player.PlayerProfile;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Server implements Runnable
 {
+  private List<PlayerHandle> unauth = new ArrayList<>();
+
   private Thread thread;
   private ServerSocket socket;
 
@@ -83,6 +87,12 @@ public class Server implements Runnable
   public void handleSocketConnect(Socket socket)
   {
     PlayerHandle han = new PlayerHandle(this, socket);
+    unauth.add(han);
+  }
+
+  public void removeUnauth(PlayerHandle handle)
+  {
+    unauth.remove(handle);
   }
 
   public void auth(PlayerHandle handle, PlayerProfile profile)

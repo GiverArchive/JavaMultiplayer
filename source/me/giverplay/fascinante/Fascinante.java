@@ -1,17 +1,37 @@
 package me.giverplay.fascinante;
 
+import me.giverplay.fascinante.config.Config;
+import me.giverplay.fascinante.config.ConfigManager;
+import me.giverplay.fascinante.server.Server;
+
+import java.util.List;
+
 public class Fascinante
 {
-  private static boolean clientSupport;
+  private ConfigManager configManager;
+  private Config config;
+  private Server server;
 
-  public static void main(String[] args)
+  private boolean clientSupport;
+  private boolean showGui;
+
+  public Fascinante(List<String> args)
   {
-    if(args.length > 0)
+    if(args.contains("--clientSupport"))
     {
-      if(args[0].equalsIgnoreCase("--clientMode"))
-      {
-        clientSupport = true;
-      }
+      this.clientSupport = true;
     }
+
+    if(args.contains("--showGui"))
+    {
+      this.showGui = true;
+    }
+
+    configManager = new ConfigManager();
+    config = configManager.getConfig("Settings");
+    config.saveDefault(false);
+
+    int port = config.getJsonData().getInt("port");
+    server = new Server(port);
   }
 }

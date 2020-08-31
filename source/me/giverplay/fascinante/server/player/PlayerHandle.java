@@ -1,6 +1,8 @@
 package me.giverplay.fascinante.server.player;
 
 import me.giverplay.fascinante.server.Server;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.*;
 import java.net.Socket;
@@ -12,6 +14,8 @@ public class PlayerHandle implements Runnable
 
   private BufferedReader input;
   private BufferedWriter output;
+
+  private boolean authenticated = false;
 
   public PlayerHandle(Server server, Socket conn)
   {
@@ -36,7 +40,24 @@ public class PlayerHandle implements Runnable
 
   private void processEntry(String entry)
   {
-
+    JSONObject json;
+    try
+    {
+      json = new JSONObject(entry);
+    }
+    catch (JSONException e)
+    {
+      try
+      {
+        System.out.println("Disconnecting for bad packet");
+        socket.close();
+        server.removeUnauth(this);
+      }
+      catch (IOException e2)
+      {
+        e.printStackTrace();
+      }
+    }
   }
 
   public void sendMessage(String message)
