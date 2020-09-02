@@ -8,6 +8,7 @@ public enum PacketType
   PING,
   DISCONNECT,
   SECURE_DISCONNECT,
-
+  PLAYER_JOIN,
+  GAME_DATA
   ;
 }

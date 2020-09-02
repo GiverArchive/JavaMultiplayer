@@ -34,6 +34,19 @@ public class PlayerHandle implements Runnable
     }
   }
 
+  public void disconnect(String reason)
+  {
+    try
+    {
+      sendMessage(reason);
+      socket.close();
+    }
+    catch (IOException e)
+    {
+      e.printStackTrace();
+    }
+  }
+
   private void setup() throws IOException
   {
     input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -62,6 +75,11 @@ public class PlayerHandle implements Runnable
       return;
     }
 
+
+  }
+
+  public void sendPacket(Packet packet)
+  {
 
   }
 
