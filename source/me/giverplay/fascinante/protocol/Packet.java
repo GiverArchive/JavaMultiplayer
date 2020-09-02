@@ -1,6 +1,8 @@
 package me.giverplay.fascinante.protocol;
 
-public abstract class Packet
+public interface Packet
 {
+  String serialize();
 
+  void deserialize();
 }
