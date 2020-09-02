@@ -1,5 +1,7 @@
 package me.giverplay.fascinante.server.player;
 
+import me.giverplay.fascinante.protocol.Protocol;
+import me.giverplay.fascinante.protocol.packet.Packet;
 import me.giverplay.fascinante.server.Server;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,22 +43,39 @@ public class PlayerHandle implements Runnable
   private void processEntry(String entry)
   {
     JSONObject json;
+
     try
     {
       json = new JSONObject(entry);
     }
     catch (JSONException e)
     {
-      try
-      {
-        System.out.println("Disconnecting for bad packet");
-        socket.close();
-        server.removeUnauth(this);
-      }
-      catch (IOException e2)
-      {
-        e.printStackTrace();
-      }
+      badPacketDisconnet();
+      return;
+    }
+
+    Packet packet = Protocol.parsePacket(json);
+
+    if(packet == null)
+    {
+      badPacketDisconnet();
+      return;
+    }
+
+
+  }
+
+  public void badPacketDisconnet()
+  {
+    try
+    {
+      System.out.println("Disconnecting for bad packet");
+      socket.close();
+      server.removeUnauth(this);
+    }
+    catch (IOException e)
+    {
+      e.printStackTrace();
     }
   }
 

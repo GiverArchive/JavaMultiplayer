@@ -5,5 +5,9 @@ public enum PacketType
   PLAYER_MOVE,
   KEEP_ALIVE,
   HANDSHAKE,
-  PING;
+  PING,
+  DISCONNECT,
+  SECURE_DISCONNECT,
+
+  ;
 }

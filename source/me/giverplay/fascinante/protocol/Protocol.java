@@ -1,11 +1,11 @@
 package me.giverplay.fascinante.protocol;
 
-import com.sun.xml.internal.ws.api.message.Packet;
+import me.giverplay.fascinante.protocol.packet.Packet;
 import org.json.JSONObject;
 
 public class Protocol
 {
-  public static Packet createPacket(JSONObject rawJson)
+  public static Packet parsePacket(JSONObject rawJson)
   {
     // TODO create protocol
     return null;
