@@ -1,4 +1,4 @@
-package me.giverplay.fascinante.protocol;
+package me.giverplay.fascinante.protocol.packet;
 
 public interface Packet
 {
