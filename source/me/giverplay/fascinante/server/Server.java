@@ -114,14 +114,19 @@ public class Server implements Runnable
       handle.disconnect("Invalid credentials");
     }
 
-    broadcast(new PacketOutPlayerJoin(profile));
+    broadcastAll(new PacketOutPlayerJoin(profile));
 
     Player player = new Player(handle, profile);
     players.add(player);
     player.sendPacket(new PacketOutGameData(getGameData()));
   }
 
-  public void broadcast(Packet packet)
+  public void broadcastAll(Packet packet)
+  {
+    broadcast(packet);
+  }
+
+  public void broadcast(Packet packet, Player... ignore)
   {
     for(int i = 0; i < players.size(); i++)
     {
