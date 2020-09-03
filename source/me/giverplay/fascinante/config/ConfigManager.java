@@ -10,6 +10,7 @@ public class ConfigManager
   public ConfigManager()
   {
     Config settings = new Config("Settings");
+    settings.saveDefault(false);
     configs.put("Settings", settings);
 
     try

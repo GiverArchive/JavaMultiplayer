@@ -29,7 +29,6 @@ public class Fascinante
 
     configManager = new ConfigManager();
     config = configManager.getConfig("Settings");
-    config.saveDefault(false);
 
     int port = config.getJsonData().getInt("port");
     server = new Server(port);

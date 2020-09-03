@@ -65,6 +65,14 @@ public class Config
 
     if(file.exists() && !replace)
     {
+      try
+      {
+        load();
+      } catch (IOException e)
+      {
+        e.printStackTrace();
+      }
+
       return;
     }
 
