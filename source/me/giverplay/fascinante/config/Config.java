@@ -70,11 +70,20 @@ public class Config
 
     try
     {
-      FileUtils.copyInputStreamToFile(Main.class.getResourceAsStream("Settings.json"), file);
+      FileUtils.copyInputStreamToFile(Main.class.getResourceAsStream("/Settings.json"), file);
     }
     catch (IOException e)
     {
       System.out.println("Failed to save default settings...");
+      e.printStackTrace();
+    }
+
+    try
+    {
+      load();
+    }
+    catch (IOException e)
+    {
       e.printStackTrace();
     }
   }

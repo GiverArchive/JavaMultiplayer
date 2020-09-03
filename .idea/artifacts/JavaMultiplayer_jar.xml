@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="JavaMultiplayer:jar">
+    <output-path>$PROJECT_DIR$/../../..</output-path>
+    <root id="archive" name="JavaMultiplayer.jar">
+      <element id="module-output" name="JavaMultiplayer" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../Jars/json-20200518.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../Jars/commons-io-2.7.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
