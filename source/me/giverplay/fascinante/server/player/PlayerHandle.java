@@ -8,9 +8,12 @@ import org.json.JSONObject;
 
 import java.io.*;
 import java.net.Socket;
+import java.net.SocketException;
+import java.util.Random;
 
 public class PlayerHandle implements Runnable
 {
+  private Thread thread;
   private Socket socket;
   private Server server;
 
@@ -18,6 +21,7 @@ public class PlayerHandle implements Runnable
   private BufferedWriter output;
 
   private boolean authenticated = false;
+  private boolean isConnected = true;
 
   public PlayerHandle(Server server, Socket conn)
   {
@@ -32,10 +36,16 @@ public class PlayerHandle implements Runnable
     {
       e.printStackTrace();
     }
+
+    thread = new Thread(this);
+    thread.start();
   }
 
   public void disconnect(String reason)
   {
+    isConnected = false;
+    thread.interrupt();
+
     try
     {
       sendMessage(reason);
@@ -55,6 +65,7 @@ public class PlayerHandle implements Runnable
 
   private void processEntry(String entry)
   {
+    System.out.println("Dados: " + entry);
     JSONObject json;
 
     try
@@ -85,6 +96,9 @@ public class PlayerHandle implements Runnable
 
   public void badPacketDisconnet()
   {
+    isConnected = false;
+    thread.interrupt();
+
     try
     {
       System.out.println("Disconnecting for bad packet");
@@ -115,7 +129,7 @@ public class PlayerHandle implements Runnable
   {
     String line;
 
-    while (server.isRunning())
+    while (isConnected)
     {
       try
       {
@@ -124,10 +138,16 @@ public class PlayerHandle implements Runnable
           processEntry(line);
         }
       }
-      catch (IOException e)
+      catch (IOException sss)
       {
-        e.printStackTrace();
+        sss.printStackTrace();
       }
+
+      try
+      {
+        Thread.sleep(1000 / 30);
+      }
+      catch (InterruptedException ignored) { }
     }
   }
 }

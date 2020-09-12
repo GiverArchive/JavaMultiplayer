@@ -8,11 +8,15 @@ public class SocketListener implements Runnable
 {
   private ServerSocket socket;
   private Server server;
+  private Thread thread;
 
   public SocketListener(Server server, ServerSocket socket)
   {
     this.server = server;
     this.socket = socket;
+
+    thread = new Thread(this);
+    thread.start();
   }
 
   @Override
@@ -25,10 +29,10 @@ public class SocketListener implements Runnable
       try
       {
         client = socket.accept();
-
         server.handleSocketConnect(client);
+        Thread.sleep(300);
       }
-      catch (IOException e)
+      catch (IOException | InterruptedException e)
       {
         e.printStackTrace();
       }

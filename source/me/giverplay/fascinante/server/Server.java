@@ -21,6 +21,7 @@ public class Server implements Runnable
 
   private Thread thread;
   private ServerSocket socket;
+  private SocketListener handle;
 
   private boolean running;
 
@@ -30,16 +31,19 @@ public class Server implements Runnable
   {
     try
     {
+      System.out.println("Starting in port " + port);
       socket = new ServerSocket(port);
     }
     catch (IOException e)
     {
       e.printStackTrace();
+      System.exit(1);
     }
 
     running = true;
-    this.thread = new Thread(this);
-    this.thread.start();
+    thread = new Thread(this);
+    thread.start();
+    handle = new SocketListener(this, socket);
   }
 
   public boolean isRunning()
@@ -71,6 +75,20 @@ public class Server implements Runnable
 
     while(running)
     {
+      if(players.size() < 1)
+      {
+        try
+        {
+          Thread.sleep(100);
+        }
+        catch (InterruptedException e)
+        {
+          e.printStackTrace();
+        }
+
+        continue;
+      }
+
       now = System.nanoTime();
       unprocessed += (now - lastTime) / nsTick;
       lastTime = now;
@@ -92,6 +110,7 @@ public class Server implements Runnable
 
   public void handleSocketConnect(Socket socket)
   {
+    System.out.println("Nova conexão: " + socket.getInetAddress() + ":" + socket.getPort());
     PlayerHandle han = new PlayerHandle(this, socket);
     unauth.add(han);
   }

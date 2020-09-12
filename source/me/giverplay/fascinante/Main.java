@@ -1,7 +1,5 @@
 package me.giverplay.fascinante;
 
-import me.giverplay.fascinante.Fascinante;
-
 import java.util.Arrays;
 
 public class Main
@@ -10,6 +8,11 @@ public class Main
 
   public static void main(String[] args)
   {
-    fascinante = new Fascinante(Arrays.asList(args));
+    Main.fascinante = new Fascinante(Arrays.asList(args));
+  }
+
+  public static Fascinante getFascinante()
+  {
+    return Main.fascinante;
   }
 }

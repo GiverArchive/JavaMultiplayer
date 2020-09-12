@@ -5,6 +5,7 @@ import me.giverplay.fascinante.config.ConfigManager;
 import me.giverplay.fascinante.server.Server;
 
 import java.util.List;
+import java.util.Locale;
 
 public class Fascinante
 {
@@ -15,22 +16,20 @@ public class Fascinante
   private boolean clientSupport;
   private boolean showGui;
 
-  public Fascinante(List<String> args)
+  Fascinante(List<String> args)
   {
-    if(args.contains("--clientSupport"))
-    {
-      this.clientSupport = true;
-    }
+    this.clientSupport = args.contains("--clientSupport");
+    this.showGui = args.contains("--showGui");
 
-    if(args.contains("--showGui"))
-    {
-      this.showGui = true;
-    }
+    long now = System.currentTimeMillis();
+    System.out.println("Starting server load");
 
     configManager = new ConfigManager();
     config = configManager.getConfig("Settings");
 
     int port = config.getJsonData().getInt("port");
     server = new Server(port);
+
+    System.out.format(Locale.US, "Done (%.3fs)!%n", (float) ((System.currentTimeMillis() - now) / 1000));
   }
 }
